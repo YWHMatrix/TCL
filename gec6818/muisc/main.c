@@ -159,18 +159,8 @@ int main(void)
 			sprintf(buf, "madplay -a %d %s &", value, av_files[i]);
 			system(buf);
 		}
-		else if (x>=0&&x<=50&&y>=0&&y<=50)//静音
-		{
-			printf(buf, "madplay -a -175 %s &",  _files[i]);
-			system(buf);
-		}
-		else if()//关机
-		{
-			system("killall -9 madplay");
-		}
+}
 		
-
-	}
 		munmap(lcd_ptr, 800 * 480 * 4);
 		close(ts_fd);
 		close(lcd_fd);
