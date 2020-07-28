@@ -31,44 +31,6 @@ int get_piece_index(int x)
 	return log2 (x)-1;
 	else
 	return -1;
-
-	/*
-	if (x == 2) {
-		return 0;
-	}else if (x == 4) {
-		return 1;
-	}else if (x == 8) {
-		return 2;
-	}else if (x == 16) {
-		return 3;
-	}else if (x == 32) {
-		return 4;
-	}else if (x == 64) {
-		return 5;
-	}else if (x == 128) {
-		return 6;
-	}else if (x == 256) {
-		return 7;
-	}else if (x == 512) {
-		return 8;
-	}else if (x == 1024) {
-		return 9;
-	}else if (x == 2048) {
-		return 10;
-	}else if (x == 4096) {
-		return 11;
-	}else if (x == 8192) {
-		return 12;
-	}else if (x == 16384) {
-		return 13;
-	}else if (x == 32768) {
-		return 14;
-	}else if (x == 65536) {
-		return 15;
-	}
-	
-	return -1;
-	*/
 }
 
 //4,求棋盘矩阵里面有多少个0
@@ -113,7 +75,7 @@ int set_matrix_value(int x, int value)//这个value值是随机数
 int get_finger_direction()
 {
 	struct input_event ts;
-	int x1 = -1, y1 = -1;		//记录第一次滑动屏幕的位置
+	int x1 = -1, y1 = -1		;//记录第一次滑动屏幕的位置
 	int x2, y2, rt;					//不断地更新位置信息
 	int x_read = 0, y_read = 1;
 	
