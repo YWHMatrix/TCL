@@ -76,45 +76,22 @@ int main(void)
 		printf("mmap failed!\n");
 		return -1;
 	}
-
 	char array[10][1024] = { "1.jpg", "2.jpg", "3.jpg","4.jpg","5.jpg","6.jpg","7.jpg" };
-
 	lcd_draw_jpg(0, 430, array[0], NULL, 0, 0);//上一首
 	lcd_draw_jpg(50, 430, array[1], NULL, 0, 0);//播放
 	lcd_draw_jpg(100, 430, array[2], NULL, 0, 0);//暂停
 	lcd_draw_jpg(150, 430, array[3], NULL, 0, 0);//下一首
 	lcd_draw_jpg(700, 430, array[4], NULL, 0, 0);//增音量
 	lcd_draw_jpg(750, 430, array[5], NULL, 0, 0);//减音量
-	int value = 5;//音量
+	int value = 18;//音量 -175 to 18
 	int i = 0;
 	char buf[2048];
 	char av_files[10][1024] = { "1.mp3", "2.mp3", "3.mp3" };
 	int x, y;
-	int count = 0;
-	
 	while (1) {
 		get_xy(&x, &y);
 		printf("(%d, %d)\n", x, y);
-		/*if (x >= 0 && x < 400 && y >= 0 && y < 480) {
-			count--;
-			//控制
-			if(count == -1) {
-				count = 2;
-			}
-			lcd_draw_jpg(0,0, array[count],NULL, 0, 0);
-		}else if (x >= 400 && x < 800 && y >= 0 && y < 480) {
-		//}else if (x >= 512 && x < 1024 && y >= 0 && y < 600) {
-			count++;
-			//控制
-			if(count == 3) {
-				count = 0;
-			}
-			lcd_draw_jpg(0,0, array[count],NULL, 0, 0);
-		}
-	}*/
-		
-
-		//小图标是50x50
+        //小图标是50x50
 		if (x >= 0 && x <= 50 && y >= 430 && y <= 480)//上一首
 		{
 			i--;
@@ -164,8 +141,6 @@ int main(void)
 		munmap(lcd_ptr, 800 * 480 * 4);
 		close(ts_fd);
 		close(lcd_fd);
-
-
 		return 0;
 	
 }
