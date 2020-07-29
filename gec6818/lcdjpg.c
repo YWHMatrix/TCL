@@ -1,3 +1,4 @@
+//lcdæ˜¾ç¤ºå›¾ç‰‡
 #include <stdio.h>   	
 #include <fcntl.h>		 	 
 #include <unistd.h>
@@ -17,7 +18,7 @@ static char g_color_buf[FB_SIZE]={0};
 extern int  lcd_fd;
 extern int *lcd_ptr;
 
-/* video_chat.c »­ÖĞ»­ÏÔÊ¾µÄ×ø±ê */
+/* video_chat.c ç”»ä¸­ç”»æ˜¾ç¤ºçš„åæ ‡ */
 volatile int g_jpg_in_jpg_x;
 volatile int g_jpg_in_jpg_y;
 
@@ -32,7 +33,7 @@ int file_size_get(const char *pathname)
 }
 
 
-//LCD»­µã
+//LCDç”»ç‚¹
 void lcd_draw_point(unsigned int x,unsigned int y, unsigned int color)
 {
 	*(lcd_ptr+y*800+x)=color;
@@ -42,7 +43,7 @@ void lcd_draw_point(unsigned int x,unsigned int y, unsigned int color)
 int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_buf,unsigned int jpg_buf_size,unsigned int jpg_half)  
 {
 	
-	/*¶¨Òå½âÂë¶ÔÏó£¬´íÎó´¦Àí¶ÔÏó*/
+	/*å®šä¹‰è§£ç å¯¹è±¡ï¼Œé”™è¯¯å¤„ç†å¯¹è±¡*/
 	struct 	jpeg_decompress_struct 	cinfo;
 	struct 	jpeg_error_mgr 			jerr;	
 	
@@ -66,7 +67,7 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 
 	if(pjpg_path!=NULL)
 	{
-		/* ÉêÇëjpg×ÊÔ´£¬È¨ÏŞ¿É¶Á¿ÉĞ´ */	
+		/* ç”³è¯·jpgèµ„æºï¼Œæƒé™å¯è¯»å¯å†™ */	
 		jpg_fd=open(pjpg_path,O_RDWR);
 		
 		if(jpg_fd == -1)
@@ -76,13 +77,13 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 		   return -1;	
 		}	
 		
-		/* »ñÈ¡jpgÎÄ¼şµÄ´óĞ¡ */
+		/* è·å–jpgæ–‡ä»¶çš„å¤§å° */
 		jpg_size=file_size_get(pjpg_path);	
 
-		/* ÎªjpgÎÄ¼şÉêÇëÄÚ´æ¿Õ¼ä */	
+		/* ä¸ºjpgæ–‡ä»¶ç”³è¯·å†…å­˜ç©ºé—´ */	
 		pjpg = malloc(jpg_size);
 
-		/* ¶ÁÈ¡jpgÎÄ¼şËùÓĞÄÚÈİµ½ÄÚ´æ */		
+		/* è¯»å–jpgæ–‡ä»¶æ‰€æœ‰å†…å®¹åˆ°å†…å­˜ */		
 		read(jpg_fd,pjpg,jpg_size);
 	}
 	else
@@ -93,19 +94,19 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 	}
 	
 
-	/*×¢²á³ö´í´¦Àí*/
+	/*æ³¨å†Œå‡ºé”™å¤„ç†*/
 	cinfo.err = jpeg_std_error(&jerr);
 
-	/*´´½¨½âÂë*/
+	/*åˆ›å»ºè§£ç */
 	jpeg_create_decompress(&cinfo);
 
-	/*Ö±½Ó½âÂëÄÚ´æÊı¾İ*/		
+	/*ç›´æ¥è§£ç å†…å­˜æ•°æ®*/		
 	jpeg_mem_src(&cinfo,pjpg,jpg_size);
 	
-	/*¶ÁÎÄ¼şÍ·*/
+	/*è¯»æ–‡ä»¶å¤´*/
 	jpeg_read_header(&cinfo, TRUE);
 
-	/*¿ªÊ¼½âÂë*/
+	/*å¼€å§‹è§£ç */
 	jpeg_start_decompress(&cinfo);	
 	
 	
@@ -114,25 +115,25 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 		x_e	= x_s+(cinfo.output_width/2);
 		y_e	= y  +(cinfo.output_height/2);		
 		
-		/*¶Á½âÂëÊı¾İ*/
+		/*è¯»è§£ç æ•°æ®*/
 		while(cinfo.output_scanline < cinfo.output_height)
 		{		
 			pcolor_buf = g_color_buf;
 			
-			/* ¶ÁÈ¡jpgÒ»ĞĞµÄrgbÖµ */
+			/* è¯»å–jpgä¸€è¡Œçš„rgbå€¼ */
 			jpeg_read_scanlines(&cinfo,(JSAMPARRAY)&pcolor_buf,1);			
 			
-			/* ÔÙ¶ÁÈ¡jpgÒ»ĞĞµÄrgbÖµ */
+			/* å†è¯»å–jpgä¸€è¡Œçš„rgbå€¼ */
 			jpeg_read_scanlines(&cinfo,(JSAMPARRAY)&pcolor_buf,1);
 
 			for(i=0; i<(cinfo.output_width/2); i++)
 			{
-				/* »ñÈ¡rgbÖµ */
+				/* è·å–rgbå€¼ */
 				color = 		*(pcolor_buf+2);
 				color = color | *(pcolor_buf+1)<<8;
 				color = color | *(pcolor_buf)<<16;
 				
-				/* ÏÔÊ¾ÏñËØµã */
+				/* æ˜¾ç¤ºåƒç´ ç‚¹ */
 				lcd_draw_point(x,y,color);
 				
 				pcolor_buf +=6;
@@ -140,7 +141,7 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 				x++;
 			}
 			
-			/* »»ĞĞ */
+			/* æ¢è¡Œ */
 			y++;					
 			
 			
@@ -154,22 +155,22 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 		x_e	= x_s+cinfo.output_width;
 		y_e	= y  +cinfo.output_height;	
 
-		/*¶Á½âÂëÊı¾İ*/
+		/*è¯»è§£ç æ•°æ®*/
 		while(cinfo.output_scanline < cinfo.output_height )
 		{		
 			pcolor_buf = g_color_buf;
 			
-			/* ¶ÁÈ¡jpgÒ»ĞĞµÄrgbÖµ */
+			/* è¯»å–jpgä¸€è¡Œçš„rgbå€¼ */
 			jpeg_read_scanlines(&cinfo,(JSAMPARRAY)&pcolor_buf,1);
 			
 			for(i=0; i<cinfo.output_width; i++)
 			{
-				/* »ñÈ¡rgbÖµ */
+				/* è·å–rgbå€¼ */
 				color = 		*(pcolor_buf+2);
 				color = color | *(pcolor_buf+1)<<8;
 				color = color | *(pcolor_buf)<<16;
 				
-				/* ÏÔÊ¾ÏñËØµã */
+				/* æ˜¾ç¤ºåƒç´ ç‚¹ */
 				lcd_draw_point(x,y,color);
 				
 				pcolor_buf +=3;
@@ -177,7 +178,7 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 				x++;
 			}
 			
-			/* »»ĞĞ */
+			/* æ¢è¡Œ */
 			y++;			
 			
 			x = x_s;
@@ -185,16 +186,16 @@ int lcd_draw_jpg(unsigned int x,unsigned int y,const char *pjpg_path,char *pjpg_
 		}		
 	}
 	
-	/*½âÂëÍê³É*/
+	/*è§£ç å®Œæˆ*/
 	jpeg_finish_decompress(&cinfo);
 	jpeg_destroy_decompress(&cinfo);
 
 	if(pjpg_path!=NULL)
 	{
-		/* ¹Ø±ÕjpgÎÄ¼ş */
+		/* å…³é—­jpgæ–‡ä»¶ */
 		close(jpg_fd);	
 		
-		/* ÊÍ·ÅjpgÎÄ¼şÄÚ´æ¿Õ¼ä */
+		/* é‡Šæ”¾jpgæ–‡ä»¶å†…å­˜ç©ºé—´ */
 		free(pjpg);		
 	}
 	

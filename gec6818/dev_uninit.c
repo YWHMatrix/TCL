@@ -1,3 +1,4 @@
+//关闭设备
 #include <sys/types.h>//打开文件
 #include <sys/stat.h>
 #include <fcntl.h>

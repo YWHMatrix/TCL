@@ -1,3 +1,4 @@
+//开机动画
 #include <stdio.h>
 #include "lcdjpg.h"
 int gif()//开机动画

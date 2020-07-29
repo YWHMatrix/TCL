@@ -1,7 +1,9 @@
+//打开设备,初始化播放器
 #include <sys/types.h>//打开文件
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/mman.h>//内存映射
+#include "av.h"
 int lcd_fd, ts_fd;
 int dev_init()
 {

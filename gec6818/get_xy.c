@@ -1,3 +1,4 @@
+//点击和滑动触摸屏，并获取坐标
 #include <stdio.h>
 #include <linux/input.h>//触摸
 int ts_fd;
