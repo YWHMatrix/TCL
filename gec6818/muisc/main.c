@@ -76,7 +76,8 @@ int main(void)
 		printf("mmap failed!\n");
 		return -1;
 	}
-	char array[10][1024] = { "1.jpg", "2.jpg", "3.jpg","4.jpg","5.jpg","6.jpg","7.jpg" };
+	lcd_draw_jpg((0,0"beijing.jpg",NULL,0,0);
+	char array[10][1024] = { "1.jpg", "2.jpg", "3.jpg","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg" };
 	lcd_draw_jpg(0, 430, array[0], NULL, 0, 0);//上一首
 	lcd_draw_jpg(50, 430, array[1], NULL, 0, 0);//播放
 	lcd_draw_jpg(100, 430, array[2], NULL, 0, 0);//暂停
@@ -99,6 +100,7 @@ int main(void)
 			{
 				i = 2;
 			}
+
 			sprintf(buf, "madplay %s &", av_files[i]);
 			system(buf);//执行命令
 		}
