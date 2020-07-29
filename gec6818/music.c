@@ -1,81 +1,9 @@
+//音乐播放器
 #include <stdio.h>
-#include "lcdjpg.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <linux/input.h>
-#include <errno.h>
-
-int ts_fd, lcd_fd;
-int *lcd_ptr;
-int get_xy(int *x, int *y)
+int music()
 {
-	struct input_event ts;
-	int x_read = 0, y_read = 1;
-	while (1) {
-		read(ts_fd, &ts, sizeof(ts));
-		
-		//绝对坐标事件(x, y)  (y (y (x, (x, (y, fin up
-		if (ts.type == EV_ABS) {
-			if (ts.code == ABS_X && x_read == 0) {
-				*x = ts.value;
-				//printf("(%d,", ts.value);
-				x_read = 1;
-				y_read = 0;
-			}
-			if (ts.code == ABS_Y && y_read == 0) {
-				*y = ts.value;
-				//printf(" %d)\n", ts.value);
-				x_read = 0;
-				y_read = 1;
-			}
-		}
-		
-		//键盘事件
-		if (ts.type == EV_KEY) {
-			if (ts.code == BTN_TOUCH ) {
-				if (ts.value == KEY_RESERVED) {
-					printf("fin up\n");
-					break;
-				}else if (ts.value == KEY_ESC) {
-					printf("fin down\n");
-				}
-			}
-		}
-	}
-	
-	return 0;
-}
-
-
-int main(void)
-{
-	//1，打开触摸屏
-	ts_fd = open("/dev/input/event0", O_RDWR);
-
-	if (ts_fd == -1) {
-		printf("open ts device failed!\n");
-		return -1;
-	}
-
-	lcd_fd = open("/dev/fb0", O_RDWR);
-
-	if (lcd_fd == -1) {
-		printf("open lcd device failed!\n");
-		return -1;
-	}
-
-	//为lcd屏幕建立内存映射关系
-	lcd_ptr = (int*)mmap(NULL, 800 * 480 * 4, PROT_READ | PROT_WRITE, MAP_SHARED, lcd_fd, 0);
-
-	if (lcd_ptr == MAP_FAILED) {
-		printf("mmap failed!\n");
-		return -1;
-	}
 	lcd_draw_jpg((0,0"beijing.jpg",NULL,0,0);
 	char array[10][1024] = { "1.jpg", "2.jpg", "3.jpg","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg" };
 	lcd_draw_jpg(0, 430, array[0], NULL, 0, 0);//上一首
@@ -85,6 +13,11 @@ int main(void)
 	lcd_draw_jpg(700, 430, array[4], NULL, 0, 0);//增音量
 	lcd_draw_jpg(750, 430, array[5], NULL, 0, 0);//减音量
 	int value = 18;//音量 -175 to 18
+	int i = 0;
+	char buf[2048];
+	char av_files[10][1024] = { "1.mp3", "2.mp3", "3.mp3" };
+	int x, y;
+    int value = 18;//音量 -175 to 18
 	int i = 0;
 	char buf[2048];
 	char av_files[10][1024] = { "1.mp3", "2.mp3", "3.mp3" };
@@ -138,11 +71,4 @@ int main(void)
 			sprintf(buf, "madplay -a %d %s &", value, av_files[i]);
 			system(buf);
 		}
-}
-		
-		munmap(lcd_ptr, 800 * 480 * 4);
-		close(ts_fd);
-		close(lcd_fd);
-		return 0;
-	
 }

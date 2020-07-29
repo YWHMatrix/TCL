@@ -1,11 +1,6 @@
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <linux/input.h>
-#include <unistd.h>
-
-
+#include <linux/input.h>//触摸
+int ts_fd;
 int get_xy(int *x, int *y)
 {
 	struct input_event ts;
@@ -40,29 +35,6 @@ int get_xy(int *x, int *y)
 			}
 		}
 	}
-	
-	return 0;
-}
-
-
-int main(void)
-{
-	//1���򿪴�����
-	ts_fd = open("/dev/input/event0", O_RDWR);
-
-	if (ts_fd == -1) {
-		printf("open ts device failed!\n");
-		return -1;
-	}
-	
-	int x, y;
-	
-	while (1) {
-		get_xy(&x, &y);
-		printf("(%d, %d)\n", x, y);
-	}
-	
-	close(ts_fd);
 	
 	return 0;
 }
