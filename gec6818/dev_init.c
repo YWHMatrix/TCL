@@ -1,10 +1,10 @@
 //打开设备,初始化播放器
-#include <sys/types.h>//打开文件
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>//内存映射
-#include "av.h"
-int lcd_fd, ts_fd;
+#include "dev_init.h"
+
+
+ int lcd_fd,ts_fd;
+ int *lcd_ptr;
+
 int dev_init()
 {
 	lcd_fd = open("/dev/fb0", O_RDWR);
@@ -34,8 +34,5 @@ int dev_init()
 		printf("open ts device failed!\n");
 		return -3;
 	}
-	
-	mplayer_init();
-	
-	return 0;
+		return 0;
 }

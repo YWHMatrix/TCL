@@ -1,4 +1,5 @@
 ﻿#include "game2048.h"
+#include "get_xy.h"
 #include <math.h>
 
 //数组初始化，将所有的图片保存在一个数组中:0~15
@@ -103,6 +104,7 @@ int get_finger_direction()
 				y_read = 1;
 			}
 		}
+	
 		
 		//键盘事件,
 		if (ts.type == EV_KEY) {
@@ -111,6 +113,7 @@ int get_finger_direction()
 					int x_cz, y_cz;
 					int abs_x, abs_y;
 					
+		        
 					x_cz = x2-x1;	//差值
 					y_cz = y2-y1;
 					abs_x = abs(x_cz); 	// a = |b|
@@ -156,6 +159,7 @@ int lcd_draw_dect(int x, int y, int w, int h, int color)
 */
 void draw_matrix()
 {
+	lcd_draw_jpg(0,0,"standard/7.jpg",NULL,0,0);
 	int i, j;
 	for (i = 0; i < 5; i++) {
 		for (j = 0; j < 5;j++) {
@@ -429,6 +433,7 @@ int game2048()
     int rt;
 
 	lcd_draw_jpg(0, 0, "game2048.jpg", NULL, 0, 0);
+	lcd_draw_jpg(700,0, "out.jpg",NULL, 0, 0);
 	
 	//将时间设置为随机数种子
 	srandom(time(NULL));
@@ -468,6 +473,15 @@ int game2048()
 		if (rt == 1) {
 			break;
 		}
+	
+		int x,y;
+		get_xy(&x, &y);
+		printf("(%d, %d)\n", x, y);
+		if(x>=700&&x<=800&&y>=0&&y<=0)
+		{
+			break;
+		}
+
     }
 
     lcd_draw_jpg(250, 165, "standard/game_over_300x150.jpg", NULL, 0, 0);

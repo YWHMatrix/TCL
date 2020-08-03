@@ -10,6 +10,7 @@
 #include <linux/input.h>
 #include "lcdjpg.h"
 #include<time.h>
+#include "get_xy.h"
 
 extern int ts_fd, lcd_fd;
 extern int* lcd_ptr;

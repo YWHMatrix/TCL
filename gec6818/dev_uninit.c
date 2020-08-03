@@ -1,11 +1,6 @@
 //关闭设备
-#include <sys/types.h>//打开文件
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>//内存映射
+#include "dev_uninit.h"
 
-int lcd_fd, ts_fd;
-int *lcd_ptr;
 int dev_uninit()
 {
 	munmap(lcd_ptr, 800*480*4);//解除内存映射
